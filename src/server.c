@@ -1,3 +1,8 @@
 #include <common/netcode.h>
 
-int main(void) { return 0; }
+int
+main(void)
+{
+    server *s = server_create(NULL, 0, 0);
+    return 0;
+}
