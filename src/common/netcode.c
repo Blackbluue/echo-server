@@ -1,6 +1,7 @@
 #include <common/netcode.h>
 #include <poll.h>
 #include <pthread.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /* DATA */
@@ -11,6 +12,12 @@ enum
     INITIAL_CONNECTIONS     = 7,
     DEFAULT_MAX_CONNECTIONS = 64,
 };
+enum error_codes
+{
+    SUCCESS = 0,
+    FAILURE = -1,
+};
+
 struct server
 {
     size_t              sock_count;      // number of sockets in use
@@ -108,4 +115,24 @@ server_destroy(server *s)
         free(s->pollfds);
         free(s);
     }
+}
+
+int
+run_server(server *s)
+{
+    if (!s)
+    {
+        return FAILURE;
+    }
+
+    // start listening for connections
+    int err = SUCCESS;
+    // int err
+    //     = pthread_create(&s->main_thread, NULL, manage_server_connections,
+    //     s);
+    if (err != SUCCESS)
+    {
+        perror("Could not create main thread");
+    }
+    return err;
 }

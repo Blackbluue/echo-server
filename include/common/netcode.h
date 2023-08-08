@@ -38,4 +38,16 @@ server *server_create(service  service_handler,
  * @param s The server to destroy.
  */
 void server_destroy(server *s);
+
+/**
+ * @brief Run a server.
+ *
+ * This function will run the server in a new thread. The server will continue
+ * to run until shutdown_server() or wait_server() are called.
+ *
+ * @param s The server to run.
+ * @return int 0 on success, non-zero on failure.
+ */
+int server_run(server *s);
+
 #endif /* NETCODE_H */
