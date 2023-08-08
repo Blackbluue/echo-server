@@ -7,6 +7,7 @@
 enum
 {
     LISTENER_SD             = 0,
+    BAD_FD                  = -1, // sentinel value for unused file descriptor
     INITIAL_CONNECTIONS     = 7,
     DEFAULT_MAX_CONNECTIONS = 64,
 };
@@ -81,4 +82,30 @@ server_create(service service_handler, uint16_t port, uint32_t max_connections)
         return NULL;
     }
     return s;
+}
+
+void
+server_destroy(server *s)
+{
+    // destroying server, fail if it is running
+    if (s)
+    {
+        if (s->listener_sd != BAD_FD)
+        {
+            close(s->listener_sd);
+            s->listener_sd = BAD_FD;
+        }
+        for (size_t i = 1; i < s->sock_count; i++)
+        {
+            // make sure only close the socket if it was opened
+            // close_connection(s->connections[i]);
+            if (s->pollfds[i].fd != BAD_FD)
+            {
+                close(s->pollfds[i].fd);
+            }
+        }
+        free(s->connections);
+        free(s->pollfds);
+        free(s);
+    }
 }

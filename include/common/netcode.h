@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
+/* DATA */
 /* request structure that will be sent to the service on a client connection
  * attempt */
 struct request
@@ -31,4 +32,10 @@ server *server_create(service  service_handler,
                       uint16_t port,
                       uint32_t max_connections);
 
+/**
+ * @brief Destroy a server.
+ *
+ * @param s The server to destroy.
+ */
+void server_destroy(server *s);
 #endif /* NETCODE_H */
