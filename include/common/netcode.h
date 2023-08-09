@@ -50,4 +50,13 @@ void server_destroy(server *s);
  */
 int server_run(server *s);
 
+/**
+ * @brief Wait for the server to shutdown.
+ *
+ * This function will block until the server has shutdown.
+ *
+ * @param s The server to wait for.
+ */
+void server_wait(server *s);
+
 #endif /* NETCODE_H */

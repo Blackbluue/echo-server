@@ -20,6 +20,7 @@ enum error_codes
 
 struct server
 {
+    pthread_t           main_thread;
     size_t              sock_count;      // number of sockets in use
     size_t              sock_cap;        // number of sockets allocated
     size_t              max_connections; // maximum number of connections
@@ -135,4 +136,16 @@ run_server(server *s)
         perror("Could not create main thread");
     }
     return err;
+}
+
+void
+server_wait(server *s)
+{
+    if (!s)
+    {
+        return;
+    }
+    // shutdown the server
+    // close the socket to stop accepting connections
+    // close all connections
 }
