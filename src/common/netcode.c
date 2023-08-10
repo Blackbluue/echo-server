@@ -7,10 +7,10 @@
 /* DATA */
 enum
 {
-    LISTENER_SD             = 0,
+    LISTENER_SD             = 0,  // index of the listener socket
     BAD_FD                  = -1, // sentinel value for unused file descriptor
-    INITIAL_CONNECTIONS     = 7,
-    DEFAULT_MAX_CONNECTIONS = 64,
+    INITIAL_CONNECTIONS     = 7,  // initial number of connections to allocate
+    DEFAULT_MAX_CONNECTIONS = 64, // default maximum number of connections
 };
 enum error_codes
 {
@@ -32,6 +32,26 @@ struct server
 };
 
 /* PRIVATE FUNCTIONS */
+/**
+ * @brief Validate a port number.
+ *
+ * @param port The port number to validate.
+ * @param port_str Where to store the port number as a string.
+ * @param port_str_len The length of the port_str buffer.
+ * @return int 0 on success, non-zero on failure.
+ */
+int
+validate_port(uint16_t port, char *port_str, size_t port_str_len)
+{
+    if (port < 1024 || port > 65535)
+    {
+        fprintf(stderr, "Invalid port: %d\n", port);
+        return FAILURE;
+    }
+    snprintf(port_str, port_str_len, "%d", port);
+    return SUCCESS;
+}
+
 /**
  * @brief Allocate a server struct.
  *
